@@ -17,5 +17,5 @@ public class ExceptionHandlerController  {
         log.error(exception.getLocalizedMessage());
     }
 
-
+    // todo handle NotFoundException
 }
