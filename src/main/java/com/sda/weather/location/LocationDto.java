@@ -1,18 +1,22 @@
 package com.sda.weather.location;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationDto {
 
-    private Long id;
-    private String nameCountry;
-    private String region;
-    private String nameCity;
-    private String latitude;
-    private String longitude;
+    Long id;
+    String nameCountry;
+    String region;
+    String nameCity;
+    String latitude;
+    String longitude;
+
+
 }

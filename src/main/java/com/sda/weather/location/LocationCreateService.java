@@ -1,6 +1,6 @@
 package com.sda.weather.location;
 
-import com.sda.weather.exceptions.BadRequestNoCountryOrCityNames;
+import com.sda.weather.exceptions.BadRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +11,20 @@ public class LocationCreateService {
     final LocationRepository locationRepository;
 
     Location createLocation(String nameCountry, String nameCity, String region, String latitude, String longitude) {
-        if (nameCountry.isEmpty() && nameCity.isEmpty() && region.isEmpty() && latitude.isEmpty() && longitude.isEmpty()) { // todo split this validation
-            throw new BadRequestNoCountryOrCityNames("Nie podano wartosci");
+        if (nameCountry.isEmpty()) {
+            throw new BadRequest("Nie podano panstwa");
+        }
+        if (nameCity.isEmpty()) {
+            throw new BadRequest("Nie podano miasta");
+        }
+        if (region.isEmpty()) {
+            throw new BadRequest("Nie podano regionu");
+        }
+        if (latitude.isEmpty()) {
+            throw new BadRequest("nie podano szerokpsci geograficznej");
+        }
+        if (longitude.isEmpty()) {
+            throw new BadRequest("nie podano dlugosci geograficznej");
         }
         Location location = new Location();
         location.setNameCountry(nameCountry);

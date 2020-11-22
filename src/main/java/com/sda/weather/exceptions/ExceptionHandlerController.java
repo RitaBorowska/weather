@@ -11,11 +11,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Slf4j
 public class ExceptionHandlerController  {
 
-    @ExceptionHandler(BadRequestNoCountryOrCityNames.class)
+    @ExceptionHandler(BadRequest.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    void badRequestNoCountryOrCityNames(BadRequestNoCountryOrCityNames exception) {
+    void badRequestNoCountryOrCityNames(BadRequest exception) {
         log.error(exception.getLocalizedMessage());
     }
 
-    // todo handle NotFoundException
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    void notFoundException(NotFoundException exception) {
+        log.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    void runtimeException(RuntimeException exception){
+        log.error(exception.getMessage());
+    }
 }
