@@ -23,12 +23,6 @@ public class LocationController {
         return locationMapper.mapToLocationDto(location);
     }
 
-    @GetMapping("/location/{nameCity}")
-    LocationDto getLocationByNameCity(@PathVariable String nameCity) {
-       Object location = locationFetchService.fetchLocationByNameCity(nameCity);
-        return locationMapper.mapToLocationDto(location);
-    }
-
     @PostMapping("/location")
     ResponseEntity<LocationDto> createLocation(@RequestBody LocationDto locationDto) {
         String nameCountry = locationDto.getNameCountry();
@@ -36,8 +30,8 @@ public class LocationController {
         String region = locationDto.getRegion();
         String latitude = locationDto.getLatitude();
         String longitude = locationDto.getLongitude();
-        Location newLocation = locationCreateService.createLocation(nameCountry, nameCity,
-                region, latitude, longitude);
+        // todo wrap a data to eg. LocationDefinition
+        Location newLocation = locationCreateService.createLocation(nameCountry, nameCity, region, latitude, longitude);
         log.info(newLocation);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -46,11 +40,10 @@ public class LocationController {
 
     @GetMapping("/location")
     ResponseEntity<List<Location>> getAllLocations() {
-        List<Location> all = locationFetchService.fetchAllLocations();
+        List<Location> locations = locationFetchService.fetchAllLocations();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(all);
+                .body(locations);
     }
-
-    }
+}
 

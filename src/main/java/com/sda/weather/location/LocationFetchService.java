@@ -14,17 +14,11 @@ public class LocationFetchService {
     private final LocationRepository locationRepository;
 
     public Location fetchLocationById(Long id) {
-        return locationRepository.findById(Long.valueOf(id))
+        return locationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Brak lokalizacji o id " + id));
     }
-    public Object fetchLocationByNameCity(String nameCity) {
-        return locationRepository.findLocationByNameCity((nameCity))
-                .orElseThrow(() -> new NotFoundException("Brak lokalizacji danego miasta " + nameCity));
-    }
+
     public List<Location> fetchAllLocations() {
-        List<Location> array = new ArrayList<>();
-        locationRepository.findAll()
-                .forEach(array::add);
-        return array;
+        return locationRepository.findAll();
     }
 }

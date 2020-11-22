@@ -11,13 +11,13 @@ public class LocationCreateService {
     final LocationRepository locationRepository;
 
     Location createLocation(String nameCountry, String nameCity, String region, String latitude, String longitude) {
-        if (nameCountry.isEmpty()) {
+        if (nameCountry.isEmpty()) {    // todo isEmpty vs isBlank
             throw new BadRequest("Nie podano panstwa");
         }
         if (nameCity.isEmpty()) {
             throw new BadRequest("Nie podano miasta");
         }
-        if (region.isEmpty()) {
+        if (region.isEmpty()) { // todo check the requirements
             throw new BadRequest("Nie podano regionu");
         }
         if (latitude.isEmpty()) {
@@ -26,10 +26,11 @@ public class LocationCreateService {
         if (longitude.isEmpty()) {
             throw new BadRequest("nie podano dlugosci geograficznej");
         }
+
         Location location = new Location();
         location.setNameCountry(nameCountry);
         location.setNameCity(nameCity);
-        location.setRegion(region);
+        location.setRegion(region); // todo check if region is empty (isBlank), then don't save this data
         location.setLatitude(latitude);
         location.setLongitude(longitude);
 
