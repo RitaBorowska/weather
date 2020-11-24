@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import java.awt.*;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,10 +29,15 @@ public class LocationCreateIntegrationTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void createLocation_createLocationReturn200Status() throws Exception {
+    void createLocation_createLocationReturn200SC() throws Exception {
         //given
         locationRepository.deleteAll();
-        LocationDto locationDto = new LocationDto(null, "Polska", "pomorskie", "Gdansk", "54.35", "18.6667");
+        LocationDto locationDto = new LocationDto(null,
+                "Polska",
+                "pomorskie",
+                "Gdansk",
+                54.35,
+                18.6667);
         MockHttpServletRequestBuilder post = post("/location")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(locationDto));
@@ -47,4 +52,54 @@ public class LocationCreateIntegrationTest {
         assertThat(responseBody.getId()).isNotNull();
         assertThat(responseBody.getNameCity()).isEqualTo("Gdansk");
     }
+
+    @Test
+    void createLocation_whenNameCityIsEmpty_Return400SC() throws Exception {
+        //given
+        locationRepository.deleteAll();
+        LocationDto locationDto = new LocationDto(null,
+                "Polska",
+                "pomorskie",
+                " ",
+                54.35,
+                18.6667);
+        MockHttpServletRequestBuilder post = post("/location")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(locationDto));
+
+        //when
+        MvcResult result = mockMvc.perform(post).andReturn();
+
+        //then
+        MockHttpServletResponse response = result.getResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        List<Location> locations = locationRepository.findAll();
+        assertThat(locations).isEmpty();
+    }
+
+    @Test
+    void createLocation_whenNameCountryIsEmpty_Return400SC() throws Exception {
+        //given
+        locationRepository.deleteAll();
+        LocationDto locationDto = new LocationDto(null,
+                "",
+                "pomorskie",
+                "gDANSK",
+                54.35,
+                18.6667);
+        MockHttpServletRequestBuilder post = post("/location")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(locationDto));
+
+        //when
+        MvcResult result = mockMvc.perform(post).andReturn();
+
+        //then
+        MockHttpServletResponse response = result.getResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        List<Location> locations = locationRepository.findAll();
+        assertThat(locations).isEmpty();
+    }
+
+
 }

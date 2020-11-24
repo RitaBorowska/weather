@@ -10,30 +10,31 @@ public class LocationCreateService {
 
     final LocationRepository locationRepository;
 
-    Location createLocation(String nameCountry, String nameCity, String region, String latitude, String longitude) {
-        if (nameCountry.isEmpty()) {    // todo isEmpty vs isBlank
-            throw new BadRequest("Nie podano panstwa");
-        }
-        if (nameCity.isEmpty()) {
-            throw new BadRequest("Nie podano miasta");
-        }
-        if (region.isEmpty()) { // todo check the requirements
-            throw new BadRequest("Nie podano regionu");
-        }
-        if (latitude.isEmpty()) {
-            throw new BadRequest("nie podano szerokpsci geograficznej");
-        }
-        if (longitude.isEmpty()) {
-            throw new BadRequest("nie podano dlugosci geograficznej");
-        }
+    Location createLocation(LocationDefinition locationDefinition) {
 
+        String nameCity = locationDefinition.getNameCity();
+        String nameCountry = locationDefinition.getNameCountry();
+        String region = locationDefinition.getRegion();
+        Double  longitude = locationDefinition.getLongitude();
+        Double  latitude = locationDefinition.getLatitude();
+
+        if (nameCity.isEmpty() || nameCountry.isEmpty() || nameCity.isBlank() || nameCountry.isBlank()) {
+            throw new BadRequest("City or Country can't be empty");
+        }
+        if (region.isEmpty() || region.isBlank()){
+            throw new BadRequest("Region is empty");
+        }
+        if(longitude < -180 || longitude > 180 || latitude < -90 || latitude > 90){
+            throw new BadRequest("Incorrect geographical coordinates.");
+       }
         Location location = new Location();
-        location.setNameCountry(nameCountry);
         location.setNameCity(nameCity);
-        location.setRegion(region); // todo check if region is empty (isBlank), then don't save this data
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
-
+        location.setNameCountry(nameCountry);
+        location.setLongitude(locationDefinition.getLongitude());
+        location.setLatitude(locationDefinition.getLatitude());
+        location.setRegion(locationDefinition.getRegion());
         return locationRepository.save(location);
+
     }
 }
+

@@ -1,6 +1,7 @@
 package com.sda.weather.location;
 
 import com.sda.weather.exceptions.BadRequest;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,29 +27,34 @@ class LocationCreateServiceTest {
         //given
         when(locationRepository.save(any(Location.class))).thenReturn(new Location());
 
+        LocationDefinition reselt = LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Warszawa")
+                .region("Mazowieckie")
+                .latitude(52.00)
+                .longitude(20.00 )
+                .build();
         //when
-        Location reselt = locationCreateService.createLocation(
-                "Polska",
-                "Warszawa",
-                "Mazowieckie",
-                "52",
-                "20");
-
+        Location result = locationCreateService.createLocation(reselt);
         //then
-        verify(locationRepository).save(any(Location.class));
+        assertThat(result).isExactlyInstanceOf(Location.class);
+        verify(locationRepository, times(1)).save(any(Location.class));
 
     }
 
     @Test
     void createLocation_whenNameCountryIsEmpty() {
         // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "  ",
-                "Poznan",
-                "wielkopolskie",
-                "52.4144",
-                "16.9211"
-        ));
+        LocationDefinition location = LocationDefinition.builder()
+                .nameCountry("")
+                .nameCity("Poznan")
+                .region("wielkopolskie")
+                .latitude(52.4144)
+                .longitude(16.9211)
+                .build();
+
+        //when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
 
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
@@ -56,15 +62,18 @@ class LocationCreateServiceTest {
     }
 
     @Test
-    void createLocation_whenNameCityIsEmpty() {
-        // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "Polska",
-                "  ",
-                "małopolskie",
-                "50.368",
-                "19.56"
-        ));
+    void createLocation_whenNameCityIsEmpty() throws Exception{
+        // given
+        LocationDefinition location = LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("  ")
+                .region("małopolskie")
+                .latitude(50.36)
+                .longitude(19.56)
+                .build();
+
+        //when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
 
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
@@ -73,29 +82,18 @@ class LocationCreateServiceTest {
 
     @Test
     void createLocation_whenRegionIsEmpty_entryRepository() {
-        // when
-        locationCreateService.createLocation(
-                "Polska",
-                "Zakopane",
-                "  ",
-                "49.18",
-                "19.57"
-        );
+        // given
+        LocationDefinition location =  LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("")
+                .latitude(49.18)
+                .longitude(19.57)
+                .build();
 
-        //then
-        verify(locationRepository).save(any(Location.class));
-    }
 
-    @Test
-    void createLocation_whenLatitudeIsEmpty() {
-        // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "Polska",
-                "Zakopane",
-                "podkarpacie",
-                "  ",
-                "19.57"
-        ));
+        //when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
 
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
@@ -103,31 +101,70 @@ class LocationCreateServiceTest {
     }
 
     @Test
-    void createLocation_whenLongitudeIsEmpty() {
-        // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "Polska",
-                "Zakopane",
-                "podkarpacie",
-                "49.18",
-                "  "
-        ));
+    void createLocation_whenRegionIsBlank_entryRepository() {
+        // given
+        LocationDefinition location =  LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("  ")
+                .latitude(49.18)
+                .longitude(19.57)
+                .build();
+
+
+        //when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
 
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
+        verify(locationRepository, times(0)).save(any(Location.class));
+    }
+
+    @Test
+    void createLocation_whenLatitudeIsNull() {
+        // when
+        Throwable result = catchThrowable(() -> LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("podkarpacie")
+                .latitude(0.00)
+                .longitude(19.57)
+                .build());
+
+        //then
+        Assert.assertNull(result);
+        verify(locationRepository, times(0)).save(any(Location.class));
+    }
+
+    @Test
+    void createLocation_whenLongitudeIsNull() {
+        // when
+        Throwable result = catchThrowable(() -> LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("podkarpacie")
+                .latitude(49.18)
+                .longitude( 0.00)
+                .build());
+
+        //then
+        Assert.assertNull(result);
         verify(locationRepository, times(0)).save(any(Location.class));
     }
 
     @Test
     void createLocation_whenLongitudeIsOver180() {
-        // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "Polska",
-                "Zakopane",
-                "podkarpacie",
-                "0",
-                "181"
-        ));
+        // given
+        LocationDefinition location =  LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("podkarpacie")
+                .longitude(0.00)
+                .latitude(181.0)
+                .build();
+
+        //when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
 
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
@@ -136,15 +173,17 @@ class LocationCreateServiceTest {
 
     @Test
     void createLocation_whenLongitudeIsBelow180Negative() {
-        // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "Polska",
-                "Zakopane",
-                "podkarpacie",
-                "0",
-                "-181"
-        ));
 
+        LocationDefinition location =  LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("podkarpacie")
+                .latitude(0.0)
+                .longitude(-181.0)
+                .build();
+
+        // when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
         verify(locationRepository, times(0)).save(any(Location.class));
@@ -152,15 +191,17 @@ class LocationCreateServiceTest {
 
     @Test
     void createLocation_whenLatitudeIsOver90() {
-        // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "Polska",
-                "Zakopane",
-                "podkarpacie",
-                "91",
-                "0"
-        ));
+        // given
+        LocationDefinition location =  LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("podkarpacie")
+                .latitude(91.0)
+                .longitude(0.0)
+                .build();
 
+        // when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
         verify(locationRepository, times(0)).save(any(Location.class));
@@ -169,14 +210,16 @@ class LocationCreateServiceTest {
     @Test
     void createLocation_whenLatitude90Negative() {
         // when
-        Throwable result = catchThrowable(() -> locationCreateService.createLocation(
-                "Polska",
-                "Zakopane",
-                "podkarpacie",
-                "-91",
-                "0"
-        ));
+        LocationDefinition location = LocationDefinition.builder()
+                .nameCountry("Polska")
+                .nameCity("Zakopane")
+                .region("podkarpacie")
+                .latitude(-91.0)
+                .longitude(0.0)
+                .build();
 
+        // when
+        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
         //then
         assertThat(result).isInstanceOf(BadRequest.class);
         verify(locationRepository, times(0)).save(any(Location.class));

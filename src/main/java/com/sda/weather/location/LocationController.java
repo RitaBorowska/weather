@@ -25,14 +25,9 @@ public class LocationController {
 
     @PostMapping("/location")
     ResponseEntity<LocationDto> createLocation(@RequestBody LocationDto locationDto) {
-        String nameCountry = locationDto.getNameCountry();
-        String nameCity = locationDto.getNameCity();
-        String region = locationDto.getRegion();
-        String latitude = locationDto.getLatitude();
-        String longitude = locationDto.getLongitude();
-        // todo wrap a data to eg. LocationDefinition
-        Location newLocation = locationCreateService.createLocation(nameCountry, nameCity, region, latitude, longitude);
-        log.info(newLocation);
+        LocationDefinition locationDefinition = locationMapper.mapToLocationDefinition(locationDto);
+        Location newLocation = locationCreateService.createLocation(locationDefinition);
+        log.info("create location: " + newLocation);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(locationMapper.mapToLocationDto(newLocation));
