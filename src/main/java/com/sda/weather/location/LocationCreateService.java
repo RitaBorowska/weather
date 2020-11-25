@@ -8,10 +8,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class LocationCreateService {
 
-    final LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
     Location createLocation(LocationDefinition locationDefinition) {
-
         String nameCity = locationDefinition.getNameCity();
         String nameCountry = locationDefinition.getNameCountry();
         String region = locationDefinition.getRegion();
@@ -34,7 +33,6 @@ public class LocationCreateService {
         location.setLatitude(locationDefinition.getLatitude());
         location.setRegion(locationDefinition.getRegion());
         return locationRepository.save(location);
-
     }
 }
 

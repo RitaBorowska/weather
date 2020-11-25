@@ -17,6 +17,4 @@ public class LocationDto {
     String nameCity;
     Double latitude;
     Double longitude;
-
-
 }

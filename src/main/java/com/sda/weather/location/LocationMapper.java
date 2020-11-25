@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 
 @Builder
 @Component
-public class LocationMapper {
+class LocationMapper {
 
     LocationDto mapToLocationDto(Location newLocation){
-        LocationDto locationDto = new LocationDto();
+        LocationDto locationDto = new LocationDto(); // todo you can use a builder
         locationDto.setId(newLocation.getId());
         locationDto.setNameCountry(newLocation.getNameCountry());
         locationDto.setNameCity(newLocation.getNameCity());
@@ -18,7 +18,7 @@ public class LocationMapper {
     }
 
     LocationDefinition mapToLocationDefinition(LocationDto locationDto) {
-        LocationDefinition locationDefinition = new LocationDefinition();
+        LocationDefinition locationDefinition = new LocationDefinition();   // todo you can use a builder
         locationDefinition.setNameCountry(locationDto.getNameCountry());
         locationDefinition.setNameCity(locationDto.getNameCity());
         locationDefinition.setRegion(locationDto.getRegion());

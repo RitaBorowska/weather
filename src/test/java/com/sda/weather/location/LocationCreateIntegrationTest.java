@@ -30,7 +30,7 @@ public class LocationCreateIntegrationTest {
 
     @Test
     void createLocation_createLocationReturn200SC() throws Exception {
-        //given
+        // given
         locationRepository.deleteAll();
         LocationDto locationDto = new LocationDto(null,
                 "Polska",
@@ -42,10 +42,10 @@ public class LocationCreateIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(locationDto));
 
-        //when
+        // when
         MvcResult result = mockMvc.perform(post).andReturn();
 
-        //then
+        // then
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
         LocationDto responseBody = objectMapper.readValue(response.getContentAsString(), LocationDto.class);
@@ -55,7 +55,7 @@ public class LocationCreateIntegrationTest {
 
     @Test
     void createLocation_whenNameCityIsEmpty_Return400SC() throws Exception {
-        //given
+        // given
         locationRepository.deleteAll();
         LocationDto locationDto = new LocationDto(null,
                 "Polska",
@@ -67,10 +67,10 @@ public class LocationCreateIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(locationDto));
 
-        //when
+        // when
         MvcResult result = mockMvc.perform(post).andReturn();
 
-        //then
+        // then
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         List<Location> locations = locationRepository.findAll();
@@ -79,7 +79,7 @@ public class LocationCreateIntegrationTest {
 
     @Test
     void createLocation_whenNameCountryIsEmpty_Return400SC() throws Exception {
-        //given
+        // given
         locationRepository.deleteAll();
         LocationDto locationDto = new LocationDto(null,
                 "",
@@ -91,10 +91,10 @@ public class LocationCreateIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(locationDto));
 
-        //when
+        // when
         MvcResult result = mockMvc.perform(post).andReturn();
 
-        //then
+        // then
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         List<Location> locations = locationRepository.findAll();

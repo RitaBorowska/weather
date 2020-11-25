@@ -13,9 +13,9 @@ import java.util.List;
 @RestController
 public class LocationController {
 
-    final LocationCreateService locationCreateService;
-    final LocationFetchService locationFetchService;
-    final LocationMapper locationMapper;
+    private final LocationCreateService locationCreateService;
+    private final LocationFetchService locationFetchService;
+    private final LocationMapper locationMapper;
 
     @GetMapping("/location/{id}")
     LocationDto getLocationById(@PathVariable Long id) {
