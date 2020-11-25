@@ -1,6 +1,5 @@
 package com.sda.weather.location;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +16,5 @@ public class LocationDefinition {
     private String region;
     private Double latitude;
     private Double longitude;
+
 }

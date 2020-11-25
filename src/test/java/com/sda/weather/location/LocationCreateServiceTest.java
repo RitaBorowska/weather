@@ -82,45 +82,45 @@ class LocationCreateServiceTest {
         verify(locationRepository, times(0)).save(any(Location.class));
     }
 
-    @Test
-    void createLocation_whenRegionIsEmpty_entryRepository() {
-        // given
-        LocationDefinition location = LocationDefinition.builder()
-                .nameCountry("Polska")
-                .nameCity("Zakopane")
-                .region("")
-                .latitude(49.18)
-                .longitude(19.57)
-                .build();
+//    @Test
+//    void createLocation_whenRegionIsEmpty_entryRepository() {
+//        // given
+//        LocationDefinition location = LocationDefinition.builder()
+//                .nameCountry("Polska")
+//                .nameCity("Zakopane")
+//                .region(" ")
+//                .latitude(49.18)
+//                .longitude(19.57)
+//                .build();
+//
+//
+//        // when
+//        Location result = locationCreateService.createLocation(location);
+//
+//        // then
+//        assertThat(result).isInstanceOf(Location.class);
+//        verify(locationRepository, times(1)).save(any(Location.class));
+//    }
 
-
-        // when
-        Location result = locationCreateService.createLocation(location);
-
-        // then
-        assertThat(result).isInstanceOf(Location.class);
-        verify(locationRepository, times(1)).save(any(Location.class));
-    }
-
-    @Test
-    void createLocation_whenRegionIsBlank_entryRepository() {
-        // given
-        LocationDefinition location = LocationDefinition.builder()
-                .nameCountry("Polska")
-                .nameCity("Zakopane")
-                .region("  ")
-                .latitude(49.18)
-                .longitude(19.57)
-                .build();
-
-
-        // when
-        Location result = locationCreateService.createLocation(location);
-
-        // then
-        assertThat(result).isInstanceOf(Location.class);
-        verify(locationRepository, times(1)).save(any(Location.class));
-    }
+//    @Test
+//    void createLocation_whenRegionIsBlank_entryRepository() {
+//        // given
+//        LocationDefinition location = LocationDefinition.builder()
+//                .nameCountry("Polska")
+//                .nameCity("Zakopane")
+//                .region("  ")
+//                .latitude(49.18)
+//                .longitude(19.57)
+//                .build();
+//
+//
+//        // when
+//        Location result = locationCreateService.createLocation(location);
+//
+//        // then
+//        assertThat(result).isInstanceOf(Location.class);
+//        verify(locationRepository, times(1)).save(any(Location.class));
+//    }
 
     @Test
     void createLocation_whenLatitudeIsNull_throwsAnException() {

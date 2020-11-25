@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Optional;
 
 @Builder
 @Data
@@ -26,4 +26,8 @@ public class Location {
     private String region;
     private Double latitude;
     private Double longitude;
+
+    public Optional<String> getRegion() {
+        return Optional.of(region);
+    }
 }
