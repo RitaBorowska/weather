@@ -27,7 +27,7 @@ public class Location {
     private Double latitude;
     private Double longitude;
 
-    public Optional<String> getRegion() {
-        return Optional.of(region);
-    }
+//    public Optional<String> getRegion() {
+//        return Optional.of(region);
+//    }
 }

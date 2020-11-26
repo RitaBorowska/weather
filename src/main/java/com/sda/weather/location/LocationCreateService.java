@@ -4,6 +4,9 @@ import com.sda.weather.exceptions.BadRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class LocationCreateService {
@@ -13,7 +16,7 @@ public class LocationCreateService {
     Location createLocation(LocationDefinition locationDefinition) {
         String nameCity = locationDefinition.getNameCity();
         String nameCountry = locationDefinition.getNameCountry();
-//        String region = locationDefinition.getRegion();
+        String region = locationDefinition.getRegion();
         Double longitude = locationDefinition.getLongitude();
         Double latitude = locationDefinition.getLatitude();
 
@@ -28,6 +31,13 @@ public class LocationCreateService {
         location.setNameCountry(nameCountry);
         location.setLongitude(locationDefinition.getLongitude());
         location.setLatitude(locationDefinition.getLatitude());
+
+        if(!region.isBlank()){
+            location.setRegion(region);
+        }
+
+//        Optional.ofNullable(region).ifPresent(Location.builder()::region);
+
         return locationRepository.save(location);
     }
 }
