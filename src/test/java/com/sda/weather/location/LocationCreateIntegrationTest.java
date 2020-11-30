@@ -1,5 +1,5 @@
 package com.sda.weather.location;
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +101,58 @@ public class LocationCreateIntegrationTest {
         assertThat(locations).isEmpty();
     }
 
+    @Test
+    void createNewLocation_whenLatitudeIsInvalid_returnHttpStatus400Code() throws Exception {
+        //given
+        locationRepository.deleteAll();
+
+        LocationDto locationDto = new LocationDto(null,
+                "Polska",
+                "pomorskie",
+                "Gdansk",
+                200.00,
+                18.86);
+
+        String requestBody = objectMapper.writeValueAsString(locationDto);
+        MockHttpServletRequestBuilder post = post("/location")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody);
+
+        //when
+        MvcResult result = mockMvc.perform(post).andReturn();
+
+        //then
+        MockHttpServletResponse response = result.getResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        List<Location> locations = locationRepository.findAll();
+        assertThat(locations).isEmpty();
+    }
+
+    @Test
+    void createNewLocation_whenLongitudeIsInvalid_returnHttpStatus400Code() throws Exception {
+        //given
+        locationRepository.deleteAll();
+
+        LocationDto locationDto = new LocationDto(null,
+                "Polska",
+                "pomoeskie",
+                "Gdanska",
+                170.0,
+                100.0);
+
+        String requestBody = objectMapper.writeValueAsString(locationDto);
+        MockHttpServletRequestBuilder post = post("/location")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody);
+
+        //when
+        MvcResult result = mockMvc.perform(post).andReturn();
+
+        //then
+        MockHttpServletResponse response = result.getResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        List<Location> locations = locationRepository.findAll();
+        assertThat(locations).isEmpty();
+    }
 
 }
