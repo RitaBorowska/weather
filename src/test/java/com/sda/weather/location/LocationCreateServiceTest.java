@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-
 @ExtendWith(MockitoExtension.class)
 class LocationCreateServiceTest {
 
@@ -83,7 +82,7 @@ class LocationCreateServiceTest {
     }
 
 //    @Test
-//    void createLocation_whenRegionIsEmpty_entryRepository() {
+//    void createLocation_whenRegionIsEmpty_throwsBadRequest() {
 //        // given
 //        LocationDefinition location = LocationDefinition.builder()
 //                .nameCountry("Polska")
@@ -93,33 +92,32 @@ class LocationCreateServiceTest {
 //                .longitude(19.57)
 //                .build();
 //
+//        // when
+//        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
+//
+//        // then
+//        assertThat(result).isInstanceOf(BadRequest.class);
+//        verify(locationRepository, times(0)).save(any(Location.class));
+//    }
+//
+//    @Test
+//    void createLocation_whenRegionIsBlank_throwsBadRequest() {
+//        // given
+//        LocationDefinition location = LocationDefinition.builder()
+//                .nameCountry("Polska")
+//                .nameCity("Zakopane")
+//                .region("  ")
+//                .latitude(49.18)
+//                .longitude(19.57)
+//                .build();
 //
 //        // when
-//        Location result = locationCreateService.createLocation(location);
+//        Throwable result = catchThrowable(() -> locationCreateService.createLocation(location));
 //
 //        // then
 //        assertThat(result).isInstanceOf(Location.class);
-//        verify(locationRepository, times(1)).save(any(Location.class));
+//        verify(locationRepository, times(0)).save(any(Location.class));
 //    }
-
-    @Test
-    void createLocation_whenRegionIsBlank_entryRepository() {
-        // given
-        LocationDefinition location = LocationDefinition.builder()
-                .nameCountry("Polska")
-                .nameCity("Zakopane")
-                .region("  ")
-                .latitude(49.18)
-                .longitude(19.57)
-                .build();
-
-        // when
-        Location result = locationCreateService.createLocation(location);
-
-        // then
-        assertThat(result).isInstanceOf(Location.class);
-        verify(locationRepository, times(0)).save(any(Location.class));
-    }
 
     @Test
     void createLocation_whenLatitudeIsNull_throwsAnException() {

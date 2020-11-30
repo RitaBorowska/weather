@@ -12,9 +12,7 @@ class LocationMapper {
                 .id(newLocation.getId())
                 .nameCountry(newLocation.getNameCountry())
                 .nameCity(newLocation.getNameCity())
-                .region(newLocation.getRegion())
-//                .region(String.valueOf(newLocation.getRegion()))
-//                .region(newLocation.getRegion().orElse(null))
+                .region(newLocation.getRegion().orElse(null))
                 .latitude(newLocation.getLatitude())
                 .longitude(newLocation.getLongitude())
                 .build();
