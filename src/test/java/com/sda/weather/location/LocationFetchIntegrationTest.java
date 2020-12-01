@@ -63,7 +63,7 @@ class LocationFetchIntegrationTest {
             assertThat(singleLocation.getNameCity()).isEqualTo("Gdansk");
             assertThat(singleLocation.getRegion()).isEqualTo("");
             assertThat(singleLocation.getLongitude()).isEqualTo(18.65);
-            assertThat(singleLocation.getLatitude()).isEqualTo(54.38);
+            assertThat(singleLocation.getLatitude()).isEqualTo(54.35);
 
         });
     }
