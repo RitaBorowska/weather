@@ -30,7 +30,7 @@ class LocationFetchIntegrationTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void fetchNewLocation_whenRegionIsEmpty_createNewLocationAndReturn201StatusCode() throws Exception { 
+    void fetchNewLocation_whenRegionIsEmpty_createNewLocationAndReturn201StatusCode() throws Exception {
         //given
         locationRepository.deleteAll();
 
@@ -48,7 +48,6 @@ class LocationFetchIntegrationTest {
         MockHttpServletRequestBuilder builder = get("/location")
                 .contentType(MediaType.APPLICATION_JSON);
 
-
         //when
         MvcResult result = mockMvc.perform(builder).andReturn();
 
@@ -63,8 +62,8 @@ class LocationFetchIntegrationTest {
         assertThat(locations).anySatisfy(singleLocation -> {
             assertThat(singleLocation.getNameCity()).isEqualTo("Gdansk");
             assertThat(singleLocation.getRegion()).isEqualTo("");
-            assertThat(singleLocation.getLongitude().equals(18.65));
-            assertThat(singleLocation.getLatitude().equals(54.38));
+            assertThat(singleLocation.getLongitude()).isEqualTo(18.65);
+            assertThat(singleLocation.getLatitude()).isEqualTo(54.38);
 
         });
     }
@@ -87,7 +86,6 @@ class LocationFetchIntegrationTest {
         MockHttpServletRequestBuilder builder = get("/location")
                 .contentType(MediaType.APPLICATION_JSON);
 
-
         //when
         MvcResult result = mockMvc.perform(builder).andReturn();
 
@@ -102,9 +100,10 @@ class LocationFetchIntegrationTest {
         assertThat(locations).anySatisfy(singleLocation -> {
             assertThat(singleLocation.getNameCity()).isEqualTo("Gdansk");
             assertThat(singleLocation.getRegion()).isEqualTo("  ");
-            assertThat(singleLocation.getLongitude().equals(18.65));
-            assertThat(singleLocation.getLatitude().equals(54.38));
+            assertThat(singleLocation.getLongitude()).isEqualTo(18.65);
+            assertThat(singleLocation.getLatitude()).isEqualTo(54.35);
 
         });
     }
+
 }
