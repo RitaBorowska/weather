@@ -15,28 +15,7 @@ public class WeatherService {
 
     public WeatherDto getWeather(String location) {
 
-        UriComponents build = UriComponentsBuilder.fromHttpUrl(configuraton.getUri())
-                .queryParam("access_key", config.getApiKey())
-                .queryParam("query", location)
-                .queryParam("units", config.getUnits())
-                .queryParam("lang", config.getLang())
-                .build();
-
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(build.toUri(), String.class);
-
-        if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new BadRequestException("Unable to get data from remote service.");
-        }
-
-        String responseBody = responseEntity.getBody();
-
-        try {
-            ForecastDTO forecastDTO = objectMapper.readValue(responseBody, ForecastDTO.class);
-            return saveForecastToDatabase(forecastDTO);
-        } catch (JsonProcessingException e) {
-            throw new DataProcessingErrorException("Unable to process forecast data.");
-        }
-
+    }
 //     WeatherDto saveWeather(WeatherDto newWeatherDto) {
 //        return WeatherDto.builder()
 //                .id(newWeatherDto.getId())
@@ -47,4 +26,5 @@ public class WeatherService {
 //                .windSpeed(newWeatherDto.getWindSpeed())
 //                .build();
 //    }
+
 }
