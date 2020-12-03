@@ -8,6 +8,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties("com.sda.weather.weatherstack-api")
+@ConfigurationProperties("com.sda.weather.weatherstack-api")    // todo com.sda.weather.openweathermap-api
 public class WeatherConfiguration {
+    // todo
+    //  private String apiKey
+    //  private String uri
+    //  ...
 }
