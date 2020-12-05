@@ -13,8 +13,8 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Weather {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String temperature;
     String pressure;

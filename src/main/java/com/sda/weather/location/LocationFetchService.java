@@ -8,11 +8,11 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-class LocationFetchService {
+public class LocationFetchService {
 
     private final LocationRepository locationRepository;
 
-    Location fetchLocationById(Long id) {
+    public Location fetchLocationById(Long id) {
         return locationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Brak lokalizacji o id " + id));
     }
