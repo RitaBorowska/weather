@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sda.weather.location.Location;
 import com.sda.weather.location.LocationFetchService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -13,12 +14,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @RequiredArgsConstructor
+@Data
 public class WeatherService {
-    private final LocationFetchService locationFetchService;
-    private RestTemplate restTemplate = new RestTemplate();
-    private ObjectMapper objectMapper = new ObjectMapper();
 
-    public Weather getWeather(Long id, String period) {
+    private final LocationFetchService locationFetchService;
+    private final RestTemplate restTemplate;
+    private final  ObjectMapper objectMapper;
+
+    public Weather getWeather(Long id, Integer period) {
         Location location = locationFetchService.fetchLocationById(id);
         String cityName = location.getNameCity();
     //    String url = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=70e566d6f0d272ed1581ec16fd4d7a1d";
@@ -32,19 +35,19 @@ public class WeatherService {
                 .toUriString();
 
         ResponseEntity<String> entity = restTemplate.getForEntity(url, String.class);
-        String respone = entity.getBody();
+        String response = entity.getBody();
 
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            WeatherOpenWeatherResponse weather = objectMapper.readValue(respone, WeatherOpenWeatherResponse.class);
+            WeatherOpenWeatherResponse weather = objectMapper.readValue(response, WeatherOpenWeatherResponse.class);
             System.out.println(weather.getCod());
             System.out.println(weather.getCity().getName());
-            System.out.println(weather.getList().get(1).getDate());
+//            System.out.println(weather.getList().get(1).getDate());
+//            System.out.println(weather.getMain().get(1).getHumidity());
+//            System.out.println(weather.getMain().get(1).getPressure());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        // save to the database
-        return new Weather();
 
+            return new Weather();
     }
 }

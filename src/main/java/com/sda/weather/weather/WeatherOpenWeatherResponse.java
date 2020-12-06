@@ -22,7 +22,23 @@ public class WeatherOpenWeatherResponse {
     public static  class SingleWeather {
         @JsonProperty("dt_txt")
         private String date;
-    }
+        private Main main;
+        private Wind wind;
 
+    }
+    @Data
+    public static class Main {
+        private String pressure;
+        private String humidity;
+        @JsonProperty("temp")
+        private String temperature;
+    }
+    @Data
+    private static class Wind {
+        @JsonProperty("speed")
+        private String windSpeed;
+        @JsonProperty("deg")
+        private String windDirection;
+    }
 
 }

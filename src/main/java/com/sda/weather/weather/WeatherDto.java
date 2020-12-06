@@ -1,14 +1,10 @@
 package com.sda.weather.weather;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Builder
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class WeatherDto {
 
     Long id;
