@@ -9,7 +9,6 @@ import java.util.List;
 public class WeatherOpenWeatherResponse {
 
     private String cod;
-    private int cnt;
     private CityResponse city;
     private List<SingleWeather> list;
 
@@ -34,7 +33,7 @@ public class WeatherOpenWeatherResponse {
         private String temperature;
     }
     @Data
-    private static class Wind {
+    public static class Wind {
         @JsonProperty("speed")
         private String windSpeed;
         @JsonProperty("deg")

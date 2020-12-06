@@ -1,7 +1,6 @@
 package com.sda.weather.weather;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sda.weather.location.Location;
 import com.sda.weather.location.LocationFetchService;
@@ -42,8 +41,12 @@ public class WeatherService {
             System.out.println(weather.getCod());
             System.out.println(weather.getCity().getName());
             System.out.println(weather.getList().get(1).getDate());
-            System.out.println(weather.getList().get(1).getMain());
-            System.out.println(weather.getList().get(1).getWind());
+            System.out.println(weather.getList().get(1).getMain().getPressure());
+            System.out.println(weather.getList().get(1).getMain().getHumidity());
+            System.out.println(weather.getList().get(1).getMain().getTemperature());
+            System.out.println(weather.getList().get(1).getWind().getWindDirection());
+            System.out.println(weather.getList().get(1).getWind().getWindSpeed());
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
