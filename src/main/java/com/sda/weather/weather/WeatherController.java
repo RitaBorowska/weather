@@ -23,9 +23,6 @@ public class WeatherController {
 
     @GetMapping("/location/{id}/weather")
     WeatherDto getWeather(@PathVariable Long id, @RequestParam(required = false, defaultValue = "1") @Min(1) @Max(5) Integer period) {
-        if (period.equals(null)) {  // todo can be empty - assume it is 1
-            throw new BadRequest("Period nie moze byc puste");
-        }
 
         Weather weather = weatherService.getWeather(id, period);
         return weatherMapper.mapToWeatherDto(weather);
