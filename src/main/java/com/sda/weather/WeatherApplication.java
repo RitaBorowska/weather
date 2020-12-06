@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-// todo add @ConfigurationPropertiesScan annotation
 public class WeatherApplication {
 
     public static void main(String[] args) {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Slf4j
 public class ExceptionHandlerController  {
 
-    @ExceptionHandler(BadRequest.class)
+    @ExceptionHandler(BadRequest.class)     // todo ConstraintViolationException
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     void badRequestNoCountryOrCityNames(BadRequest exception) {
         log.error(exception.getLocalizedMessage());

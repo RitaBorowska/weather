@@ -34,8 +34,8 @@ public class LocationController {
     }
 
     @GetMapping("/location")
-    ResponseEntity<List<Location>> getAllLocations() {
-        List<Location> locations = locationFetchService.fetchAllLocations();
+    ResponseEntity<List<Location>> getAllLocations() {      // todo return List<LocationDto>
+        List<Location> locations = locationFetchService.fetchAllLocations();    // todo use .stream().map(..).collect(Collectors.toList());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(locations);
