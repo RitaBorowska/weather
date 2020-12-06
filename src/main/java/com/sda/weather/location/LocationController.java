@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -34,11 +35,12 @@ public class LocationController {
     }
 
     @GetMapping("/location")
-    ResponseEntity<List<Location>> getAllLocations() {      // todo return List<LocationDto>
-        List<Location> locations = locationFetchService.fetchAllLocations();    // todo use .stream().map(..).collect(Collectors.toList());
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(locations);
+    List<LocationDto> getAllLocations() {
+        return locationFetchService.fetchAllLocations()
+                .stream()
+                .map(locationMapper::mapToLocationDto)
+                .collect(Collectors.toList());
+
     }
 }
 

@@ -18,6 +18,7 @@ public class LocationFetchService {
     }
 
     List<Location> fetchAllLocations() {
+
         return locationRepository.findAll();
     }
 }
