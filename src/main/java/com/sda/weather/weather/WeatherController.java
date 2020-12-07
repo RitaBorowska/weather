@@ -3,6 +3,7 @@ package com.sda.weather.weather;
 import com.sda.weather.exceptions.BadRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class WeatherController {
     }
 
     @GetMapping("/weather")
-    String getWeather(@RequestParam String nameCity, @RequestParam(required = false) String date) {
+    String getWeather(@RequestParam String nameCity, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return null;
     }
 }

@@ -7,7 +7,6 @@ import lombok.Data;
 @Builder
 public class WeatherDto {
 
-    Long id;
     String temperature;
     String pressure;
     String humidity;
