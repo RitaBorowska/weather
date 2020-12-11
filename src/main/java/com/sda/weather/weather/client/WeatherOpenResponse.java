@@ -18,7 +18,7 @@ public class WeatherOpenResponse {
         private Main main;
         private Wind wind;
 
-    }
+
     @Data
     public static class Main {
         private String pressure;
@@ -34,4 +34,4 @@ public class WeatherOpenResponse {
         private String windDirection;
     }
 
-}
+}}

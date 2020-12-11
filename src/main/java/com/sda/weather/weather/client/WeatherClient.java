@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -44,8 +45,12 @@ public class WeatherClient {
                     .map(this::mapToWeather)
                     .findFirst();
         } catch (JsonProcessingException e) {
+            log.error("Brak informacji o pogodzie", e);
             return Optional.empty();
-        }
+        } catch (RestClientException e) {
+        log.error("Blad polaczenia z url " + url, e);
+        return Optional.empty();
+    }
     }
 
     private LocalDateTime mapToLocalDateTime(String date) {
@@ -55,6 +60,7 @@ public class WeatherClient {
 
     Weather mapToWeather(WeatherOpenResponse.SingleWeather singleWeather){
         LocalDateTime weatherData = mapToLocalDateTime(singleWeather.getDate());
+        Instant dateWeatherInstant = weatherData.atZone(ZoneId.systemDefault()).toInstant();
 
         return Weather.builder()
                 .temperature(singleWeather.getMain().getTemperature())
@@ -62,6 +68,7 @@ public class WeatherClient {
                 .humidity(singleWeather.getMain().getHumidity())
                 .windSpeed(singleWeather.getWind().getWindSpeed())
                 .windDirection(singleWeather.getWind().getWindDirection())
+                .weatherDate(dateWeatherInstant)
                 .build();
     }
 }
