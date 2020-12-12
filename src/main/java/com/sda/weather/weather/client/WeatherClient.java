@@ -39,7 +39,7 @@ public class WeatherClient {
 
         try {
             WeatherOpenResponse weatherOpenResponse = objectMapper.readValue(response, WeatherOpenResponse.class);
-            LocalDateTime date = weatherData.atTime(12, 00);
+            LocalDateTime date = weatherData.atTime(12, 0);
             return weatherOpenResponse.getSingleWeatherList().stream()
                     .filter(f -> mapToLocalDateTime(f.getDate()).isEqual(date))
                     .map(this::mapToWeather)
