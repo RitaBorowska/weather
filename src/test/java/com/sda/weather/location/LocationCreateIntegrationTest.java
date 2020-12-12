@@ -38,6 +38,7 @@ public class LocationCreateIntegrationTest {
                 54.35,
                 18.6667);
         MockHttpServletRequestBuilder post = post("/location")
+                .with(user("rita").roles("ADMIN"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(locationDto));
 
