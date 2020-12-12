@@ -23,9 +23,9 @@ public class ExceptionHandlerController  {
         log.error(exception.getMessage());
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    void runtimeException(RuntimeException exception){
-        log.error(exception.getMessage());
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    void runtimeException(RuntimeException exception){
+//        log.error(exception.getMessage());
+//    }
 }
