@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -36,8 +37,11 @@ public class LocationController {
     }
 
     @GetMapping("/location")
-    ResponseEntity<List<Location>> getAllLocations() {
-        List<Location> locations = locationFetchService.fetchAllLocations();
+    ResponseEntity<List<LocationDto>> getAllLocations() {
+        List<LocationDto> locations = locationFetchService.fetchAllLocations().stream()
+                .map(locationMapper::mapToLocationDto)
+                .collect(Collectors.toList());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(locations);
