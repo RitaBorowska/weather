@@ -14,12 +14,14 @@ public class ExceptionHandlerController  {
     @ExceptionHandler(BadRequest.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     void badRequestNoCountryOrCityNames(BadRequest exception) {
+
         log.error(exception.getLocalizedMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     void notFoundException(NotFoundException exception) {
+
         log.error(exception.getMessage());
     }
 
